@@ -1,6 +1,5 @@
 resolve(S) :-
     S = festival(_, _, _, _, _),
-
     % Na segunda posição está o DJ que toca Trance.
     segunda_posicao(A, S),
     genero(A, trance),
