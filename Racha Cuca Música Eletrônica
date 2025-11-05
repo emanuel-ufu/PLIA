@@ -1,0 +1,186 @@
+resolve(S) :-
+    S = festival(_, _, _, _, _),
+
+    % Na segunda posição está o DJ que toca Trance.
+    segunda_posicao(A, S),
+    genero(A, trance),
+
+    % O Sueco está em uma das pontas.
+    uma_das_pontas(B,S),
+    nacionalidade(B,sueco),
+
+ 	% O Holandês está em algum lugar entre o DJ que toca Trance e o Canadense, nessa ordem.
+    em_algum_lugar_entre(D,C,E,S),
+    nacionalidade(D, holandes),
+    genero(C, trance),
+    nacionalidade(E, canadense),
+
+    % O homem de Verde está ao lado do homem que está bebendo suco de Uva.
+    ao_lado(F,G,S),
+    camiseta(F, verde),
+    suco(G, uva),
+
+    % O DJ mais novo está em algum lugar entre o DJ de 24 e o do palco Eternidade, nessa ordem.
+    em_algum_lugar_entre(I,H,J,S),
+    idade(I, 20),
+    idade(H, 24),
+    palco(J, eternidade),
+
+    % O Holandês está ao lado do DJ que vai tocar no palco Liberdade.
+    ao_lado(K,L,S),
+    nacionalidade(K, holandes),
+    palco(L, liberdade),
+
+    % O DJ que está bebendo suco de Uva está exatamente à esquerda do DJ que toca Techno.
+    exatamente_a_esquerda(M,N,S),
+    suco(M, uva),
+    genero(N, techno),
+
+    % Em uma das pontas está o homem de 28 anos.
+    uma_das_pontas(O,S),
+    idade(O, 28),
+
+    % O homem de 32 anos está exatamente à direita do homem que está bebendo suco de Limão.
+    exatamente_a_direita(P,Q,S),
+    idade(P, 32),
+    suco(Q, limao),
+
+    % O DJ que tocará no palco Eternidade está em algum lugar entre o DJ de 24 e o do palco Ousadia, nessa ordem.
+    em_algum_lugar_entre(U,T,V,S),
+    palco(U, eternidade),
+    idade(T, 24),
+    palco(V, ousadia),
+
+    % O Brasileiro está ao lado do homem que está bebendo suco de Limão.
+    ao_lado(W,X,S),
+    nacionalidade(W, brasileiro),
+    suco(X, limao),
+
+    % Na primeira posição está o homem de camiseta Branca.
+    primeira_posicao(Y, S),
+    camiseta(Y, branca),
+
+    % O DJ que vai tocar no palco Amizade está ao lado do DJ que está bebendo suco de Maracujá.
+    ao_lado(Z,A1,S),
+    palco(Z, amizade),
+    suco(A1, maracuja),
+
+    % O Francês está na segunda posição.
+    segunda_posicao(A2, S),
+    nacionalidade(A2, frances),
+
+    % O homem de Verde está em algum lugar entre o homem que está bebendo suco de Laranja e o homem de Amarelo, nessa ordem.
+    em_algum_lugar_entre(A5, A4, A6, S),
+    camiseta(A5, verde),
+    suco(A4, laranja),
+    camiseta(A6, amarela),
+
+    % O DJ que toca Trance está ao lado do DJ que toca House.
+    ao_lado(A7, A8, S),
+    genero(A7, trance),
+    genero(A8, house),
+
+    % O homem de 24 anos está exatamente à esquerda do homem que está bebendo suco de Limão.
+    exatamente_a_esquerda(A9, B1, S),
+    idade(A9, 24),
+    suco(B1, limao),
+
+    % O DJ de camiseta Amarela está em algum lugar à esquerda do DJ que tocará no palco Amizade.
+    em_algum_lugar_a_esquerda(B2, B3, S),
+    camiseta(B2, amarela),
+    palco(B3, amizade),
+	
+    %fechamento
+    algum_dj(B4,S),
+    camiseta(B4,vermelha),
+
+    algum_dj(B5,S),
+    genero(B5,dubstep),
+
+    algum_dj(B6,S),
+    genero(B6,techno),
+
+    algum_dj(B7,S),
+    idade(B7,36),
+
+    algum_dj(B8,S),
+    suco(B8,abacaxi),
+
+    % Drum and Bass será tocado no palco Paz (mesmo DJ)
+	algum_dj(C1,S),
+    genero(C1,drum_and_bass),
+    palco(C1, paz),
+
+    % O Holandês está de camiseta Azul (mesmo DJ)
+    algum_dj(C3,S),
+    nacionalidade(C3, holandes),
+    camiseta(C3, azul),
+
+    % O DJ de 24 anos está bebendo suco de Laranja (mesmo DJ)
+    algum_dj(C5,S),
+    idade(C5, 24),
+    suco(C5, laranja).
+
+camiseta(dj(C, _, _, _, _, _), C).
+nacionalidade(dj(_, N, _, _, _, _), N).
+genero(dj(_, _, G, _, _, _), G).
+palco(dj(_, _, _, P, _, _), P).
+idade(dj(_, _, _, _, I, _), I).
+suco(dj(_, _, _, _, _, S), S).
+
+algum_dj(X, festival(X,_,_,_,_)).
+algum_dj(X, festival(_,X,_,_,_)).
+algum_dj(X, festival(_,_,X,_,_)).
+algum_dj(X, festival(_,_,_,X,_)).
+algum_dj(X, festival(_,_,_,_,X)).
+
+% posições específicas
+primeira_posicao(X, festival(X, _, _, _, _)).
+segunda_posicao(X, festival(_, X, _, _, _)).
+
+% pontas
+uma_das_pontas(X, festival(X, _, _, _, _)).
+uma_das_pontas(X, festival(_, _, _, _, X)).
+
+% exatamente à direita
+exatamente_a_direita(X, Y, festival(Y, X, _, _, _)).
+exatamente_a_direita(X, Y, festival(_, Y, X, _, _)).
+exatamente_a_direita(X, Y, festival(_, _, Y, X, _)).
+exatamente_a_direita(X, Y, festival(_, _, _, Y, X)).
+
+% exatamente à esquerda
+exatamente_a_esquerda(X, Y, S) :- 
+    exatamente_a_direita(Y, X, S).
+
+% ao lado
+ao_lado(X, Y, S) :-
+    exatamente_a_esquerda(X, Y, S);
+    exatamente_a_esquerda(Y, X, S).
+
+% em algum lugar à esquerda
+em_algum_lugar_a_esquerda(X, Y, festival(X, Y, _, _, _)).
+em_algum_lugar_a_esquerda(X, Y, festival(X, _, Y, _, _)).
+em_algum_lugar_a_esquerda(X, Y, festival(X, _, _, Y, _)).
+em_algum_lugar_a_esquerda(X, Y, festival(X, _, _, _, Y)).
+em_algum_lugar_a_esquerda(X, Y, festival(_, X, Y, _, _)).
+em_algum_lugar_a_esquerda(X, Y, festival(_, X, _, Y, _)).
+em_algum_lugar_a_esquerda(X, Y, festival(_, X, _, _, Y)).
+em_algum_lugar_a_esquerda(X, Y, festival(_, _, X, Y, _)).
+em_algum_lugar_a_esquerda(X, Y, festival(_, _, X, _, Y)).
+em_algum_lugar_a_esquerda(X, Y, festival(_, _, _, X, Y)).
+
+% em algum lugar à direita
+em_algum_lugar_a_direita(X,Y,S):-
+    em_algum_lugar_a_esquerda(Y,X,S).
+
+% em algum lugar entre
+em_algum_lugar_entre(X, Y, Z, festival(Y, X, Z, _, _)).
+em_algum_lugar_entre(X, Y, Z, festival(Y, X, _, Z, _)).
+em_algum_lugar_entre(X, Y, Z, festival(Y, X, _, _, Z)).
+em_algum_lugar_entre(X, Y, Z, festival(Y, _, X, Z, _)).
+em_algum_lugar_entre(X, Y, Z, festival(Y, _, X, _, Z)).
+em_algum_lugar_entre(X, Y, Z, festival(Y, _, _, X, Z)).
+em_algum_lugar_entre(X, Y, Z, festival(_, Y, X, Z, _)).
+em_algum_lugar_entre(X, Y, Z, festival(_, Y, X, _, Z)).
+em_algum_lugar_entre(X, Y, Z, festival(_, Y, _, X, Z)).
+em_algum_lugar_entre(X, Y, Z, festival(_, _, Y, X, Z)).
